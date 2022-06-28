@@ -86,17 +86,22 @@ Except for a small cluster of very dark images, the frequency decreases towards 
 
 ### Cross-validation
 The creation of training vs. validation split, which is usually performed based on the exploratory analysis, 
-was already done in the workspace, with 87:10 TFRecords in the training and validation set, respectively.
+was already done in the workspace, with 87 : 10 TFRecords in the training and validation set, respectively.
+This corresponds to a 90% : 10% split, which I would have chosen as well.
 
 ## Training
-
 ### Reference experiment
-This section should detail the results of the reference experiment.
-It should include training metrics, Tensorboard charts, and a detailed explanation of the algorithm's performance.
+As expected, the reference run with the pretrained model did not yield optimal results.
+The losses decrease with the number of epochs, 
+but e.g. the classification loss seems to reach a base plateau rather fast.
+The final overall loss is about 4.2.
 
 ![](results/tensorboard_training_reference3.JPG)
 
 ![](results/tensorboard_training_reference_learning3.JPG)
+
+Looking at the evaluation metrics, we can observe that the average precision and recall values
+are all very low (for a IoU threshold of 0.5) and that hence the model does not yet perform well on a new dataset.
 
 ![](results/tensorboard_eval_reference3.JPG)
 
@@ -111,24 +116,38 @@ based on the results of the exploratory data analysis, I started off using some 
 A visualization of the implemented augmentations is shown below:
 ![](results/experiment0_augmentations.JPG)
 
-The training and validation results yielded are displayed below:
+In the `experiment0` run, we again let the model run until the learning rate decayed to zero (2500 epochs).
 
-![](results/tensorboard_training_reference3.JPG)
+At first glance, the model seems to have improved a lot in training: 
+the maximum losses were lower than before and the plateau was reached later, i.e. the model was still improving in later runs.
+The final overall loss could be reduced to around 2.7.
 
-![](results/tensorboard_training_reference_learning3.JPG)
+Precision and recall increased significantly, but still remained below 0.22.
 
-![](results/tensorboard_eval_reference3.JPG)
+The training and validation results are displayed below:
+
+![](results/tensorboard_training_experiment0.JPG)
+
+![](results/tensorboard_eval_experiment0.JPG)
 
 ### Improve on the reference - experiment1
 
-In a second step, I adjusted the model parameters, 
-choosing a total number of steps and a number of warmup steps 4x larger than in the reference run.
-Furthermore, I lowered the base learning rate to 0.02.
+In a second step, I additionally adjusted the model parameters, 
+choosing a total number of steps and a number of warmup steps 4x larger than in the reference run
+(10000 and 800) in an attempt to allow the model to reach the optimum value in each iteration.
+Furthermore, I lowered the base learning rate from 0.04 to 0.02.
 
-The training and validation results yielded are displayed below:
+The training and validation results are displayed below:
 
-![](results/tensorboard_training_reference3.JPG)
+![](results/tensorboard_training_experiment1.JPG)
 
-![](results/tensorboard_training_reference_learning3.JPG)
+![](results/tensorboard_eval_experiment1.JPG)
 
-![](results/tensorboard_eval_reference3.JPG)
+### Outlook
+
+The experiments demonstrate how augmentations and model parametrization can be used to improve the performance of our model detection algorithm.
+Further improvements should be made and other tactics employed e.g. for dealing specifically with the minority class,
+in order to reliably detect _all_ traffic participants.
+
+Since augmenting images on a very small set of samples has its limits, 
+a first step could be to specifically collect more image data on the minority class, bicycles.
