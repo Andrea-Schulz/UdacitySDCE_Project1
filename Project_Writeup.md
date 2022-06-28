@@ -94,9 +94,11 @@ was already done in the workspace, with 87:10 TFRecords in the training and vali
 This section should detail the results of the reference experiment.
 It should include training metrics, Tensorboard charts, and a detailed explanation of the algorithm's performance.
 
-![](results/tensorboard_training_reference.JPG)
+![](results/tensorboard_training_reference3.JPG)
 
-![](results/tensorboard_training_reference_learning.JPG)
+![](results/tensorboard_training_reference_learning3.JPG)
+
+![](results/tensorboard_eval_reference3.JPG)
 
 ### Improve on the reference
 
