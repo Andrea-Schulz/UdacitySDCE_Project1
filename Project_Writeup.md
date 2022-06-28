@@ -60,20 +60,33 @@ In images with multiple objects, objects tend to be clustered and occlude each o
 
 ![](results/data_exploratory_analysis.png)
 
-The mentioned imbalances in the dataset are visualized below, based on the training dataset: there are over 100x more vehicles than bicycles.
-The left diagram displays how many objects of a certain type could be found in one image on average.
-In the right diagram, the total number of objects per object type across all images is shown.
-
-![](results/data_exploratory_analysis_piechart.png)
+The mentioned imbalances in the dataset are visualized below, based on 1000 images from the training dataset.
+The diagram displays the percentage of objects per object type across all sampled images, 
+and it can be seen that there are roughly 125x more vehicles than bicycles, 
+which make up for only ~0.6% of all objects.
 
 Hence, it can be expected that our model is likely to overfit on vehicles, whilst performing less optimal on bicycles.
 
 ![](results/data_exploratory_analysis_piechart.png)
 
-![](results/data_exploratory_analysis_piechart.png)
+For the majority class - vehicles - the images contain an average of around 17 vehicles with outliers reaching almost 70.
+The distribution of pedestrians and bicycles on the other hand is much more spread out.
+
+With such a small number of bicycles in the dataset, the boxplot for this object type can hardly be recognised.
+The maximum number of bicycles in an image is 5 for the samples taken here:
+
+![](results/data_exploratory_analysis_box.png)
+
+On the same set of 1000 vehicles, the average image brightness has a very distinct peak at around 90 
+and a smaller peak at around 130.
+
+Except for a small cluster of very dark images, the frequency decreases towards high and low brightness values.
+
+![](results/data_exploratory_analysis_brightness.png)
 
 ### Cross-validation
-This section should detail the cross-validation strategy and justify your approach
+The creation of training vs. validation split, which is usually performed based on the exploratory analysis, 
+was already done in the workspace, with 87:10 TFRecords in the training and validation set, respectively.
 
 ## Training
 
@@ -86,4 +99,16 @@ It should include training metrics, Tensorboard charts, and a detailed explanati
 ![](results/tensorboard_training_reference_learning.JPG)
 
 ### Improve on the reference
-This section should highlight the different strategies you adopted to improve your model. It should contain relevant figures and details of your findings.
+
+### experiment0
+based on the results of the exploratory data analysis, I started off using some image augmentations, e.g.
+* `random_adjust_brightness` and `random_adjust_contrast` to increase the diversity in brightness and contrast across the given images
+* `random_adjust_hue`, `random_rgb_to_gray` and `random_adjust_saturation` to mimic different light conditions (e.g. a blueish or yellowish tint caused by artificial lights)
+* `random_patch_gaussian` to mimic blurs and flares caused by different weather conditions (e.g. rain on the camera lens)
+* `random_black_patches` to mimic occlusions (i.e. caused by other objects)
+
+A visualization of such augmentations is shown below:
+![](results/experiment0_augmentations.JPG)
+
+### experiment1
+### experiment2
