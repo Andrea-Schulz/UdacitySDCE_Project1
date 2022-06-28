@@ -89,7 +89,7 @@ The creation of training vs. validation split, which is usually performed based 
 was already done in the workspace, with 87 : 10 TFRecords in the training and validation set, respectively.
 This corresponds to a 90% : 10% split, which I would have chosen as well.
 
-## Training
+## Training & Evaluation
 ### Reference experiment
 As expected, the reference run with the pretrained model did not yield optimal results.
 The losses decrease with the number of epochs, 
@@ -113,16 +113,18 @@ based on the results of the exploratory data analysis, I started off using some 
 * `random_black_patches` to mimic occlusions (i.e. caused by other objects)
 * I kept the already implemented augmentations (horizontal flip and image crop)
 
-A visualization of the implemented augmentations is shown below:
+A visualization of the implemented augmentations from the `Explore augmentations.ipynb` notebook is shown below:
 ![](results/experiment0_augmentations.JPG)
 
-In the `experiment0` run, we again let the model run until the learning rate decayed to zero (2500 epochs).
+In the `experiment0` run, I also increased the batch size from 2 to 4.
+In training, the model again ran until the learning rate decayed to zero (2500 epochs).
 
 At first glance, the model seems to have improved a lot in training: 
 the maximum losses were lower than before and the plateau was reached later, i.e. the model was still improving in later runs.
 The final overall loss could be reduced to around 2.7.
 
 Precision and recall increased significantly, but still remained below 0.22.
+The performance is significantly better for medium and large objects than for small objects.
 
 The training and validation results are displayed below:
 
@@ -131,23 +133,38 @@ The training and validation results are displayed below:
 ![](results/tensorboard_eval_experiment0.JPG)
 
 ### Improve on the reference - experiment1
-
 In a second step, I additionally adjusted the model parameters, 
 choosing a total number of steps and a number of warmup steps 4x larger than in the reference run
 (10000 and 800) in an attempt to allow the model to reach the optimum value in each iteration.
 Furthermore, I lowered the base learning rate from 0.04 to 0.02.
 
-The training and validation results are displayed below:
+`experiment1` showed further improvements on the losses in training.
+The maximum overall loss quickly dropped to around 2.6 after 200 epochs and decreased further to 1.8 after 2500 epochs.
+
+Due to the learning rate annealing algorithm and the total number of steps/epochs set to 10000, 
+the learning rate decreased at a much slower rate than in previous runs.
+After 2500 epochs, the individual and total losses were still decreasing steadily.
+
+Due to time restrictions and workspace performance issues, I did not tune the number of steps and learning rate any further,
+but we can assume that further improvements can be achieved here.
+
+The training and validation results of the improved pipeline are displayed below:
 
 ![](results/tensorboard_training_experiment1.JPG)
 
 ![](results/tensorboard_eval_experiment1.JPG)
 
-### Outlook
+#### Inference animation - experiment1
 
+An animation for the trained model from `experiment1` can be seen below:
+
+![](results/animation.gif)
+
+### Outlook
 The experiments demonstrate how augmentations and model parametrization can be used to improve the performance of our model detection algorithm.
-Further improvements should be made and other tactics employed e.g. for dealing specifically with the minority class,
-in order to reliably detect _all_ traffic participants.
+
+Further improvements could be made and other tactics employed e.g. for dealing specifically with the minority class,
+in order to reliably detect _all_ traffic participants or for improving the performance on small objects.
 
 Since augmenting images on a very small set of samples has its limits, 
-a first step could be to specifically collect more image data on the minority class, bicycles.
+an important step here could be to specifically collect more image data on the minority class, bicycles.
