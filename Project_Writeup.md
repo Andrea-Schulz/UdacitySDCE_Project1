@@ -100,17 +100,35 @@ It should include training metrics, Tensorboard charts, and a detailed explanati
 
 ![](results/tensorboard_eval_reference3.JPG)
 
-### Improve on the reference
-
-### experiment0
+### Improve on the reference - experiment0
 based on the results of the exploratory data analysis, I started off using some image augmentations, e.g.
 * `random_adjust_brightness` and `random_adjust_contrast` to increase the diversity in brightness and contrast across the given images
 * `random_adjust_hue`, `random_rgb_to_gray` and `random_adjust_saturation` to mimic different light conditions (e.g. a blueish or yellowish tint caused by artificial lights)
 * `random_patch_gaussian` to mimic blurs and flares caused by different weather conditions (e.g. rain on the camera lens)
 * `random_black_patches` to mimic occlusions (i.e. caused by other objects)
+* I kept the already implemented augmentations (horizontal flip and image crop)
 
-A visualization of such augmentations is shown below:
+A visualization of the implemented augmentations is shown below:
 ![](results/experiment0_augmentations.JPG)
 
-### experiment1
-### experiment2
+The training and validation results yielded are displayed below:
+
+![](results/tensorboard_training_reference3.JPG)
+
+![](results/tensorboard_training_reference_learning3.JPG)
+
+![](results/tensorboard_eval_reference3.JPG)
+
+### Improve on the reference - experiment1
+
+In a second step, I adjusted the model parameters, 
+choosing a total number of steps and a number of warmup steps 4x larger than in the reference run.
+Furthermore, I lowered the base learning rate to 0.02.
+
+The training and validation results yielded are displayed below:
+
+![](results/tensorboard_training_reference3.JPG)
+
+![](results/tensorboard_training_reference_learning3.JPG)
+
+![](results/tensorboard_eval_reference3.JPG)
