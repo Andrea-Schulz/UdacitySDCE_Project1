@@ -124,13 +124,16 @@ the maximum losses were lower than before and the plateau was reached later, i.e
 The final overall loss could be reduced to around 2.7.
 
 Precision and recall increased significantly, but still remained below 0.22.
-The performance is significantly better for medium and large objects than for small objects.
+The performance is significantly better for medium and large objects than for small ones.
+As can be seen in the animation, the detection of vehicles is - despite the improvements in metrics - still insufficient.
 
 The training and validation results are displayed below:
 
 ![](results/tensorboard_training_experiment0.JPG)
 
 ![](results/tensorboard_eval_experiment0.JPG)
+
+![](results/animation.gif)
 
 ### Improve on the reference - experiment1
 In a second step, I additionally adjusted the model parameters, 
@@ -153,12 +156,6 @@ The training and validation results of the improved pipeline are displayed below
 ![](results/tensorboard_training_experiment1.JPG)
 
 ![](results/tensorboard_eval_experiment1.JPG)
-
-#### Inference animation - experiment1
-
-An animation for the trained model from `experiment1` can be seen below:
-
-![](results/animation.gif)
 
 ### Outlook
 The experiments demonstrate how augmentations and model parametrization can be used to improve the performance of our model detection algorithm.
